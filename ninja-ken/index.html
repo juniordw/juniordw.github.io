@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/stylesheet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Ninja Ken</title>
+</head>
+<body>
+    <header>
+        <h1>NINJA KEN</h1>
+        <i class="fa fa-bars"></i>
+        <ul>
+            <li>Tentang Saya</li>
+            <li>Proyek Contoh</li>
+            <li>Hubungi Saya</li>
+        </ul>
+    </header>
+    <div class="profile light">
+        <h1>NINJA KEN<span>.</span></h1>
+        <p>MY PORTOFOLIO</p>
+        <img src="./assets/img/Ninja Ken.png" alt="Ninja Ken">
+    </div>
+    <div class="aboutme dark">
+        <h3>Tentang Saya</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro ratione fugit vero voluptatum eveniet illo, eligendi nisi doloribus ut autem molestias nam voluptate harum eius facere totam praesentium illum cupiditate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque temporibus facere aperiam! Repellendus, veritatis voluptates sequi perspiciatis aperiam minima dignissimos excepturi consectetur assumenda quibusdam sit accusantium repellat ratione eius impedit.</p>
+    </div>
+    <div class="projects light">
+        <h3>Proyek Contoh</h3>
+        <div class="slider">
+            <a class="prev" onclick="update(-1)">&#10094;</a>
+            <div class="example">
+            </div>
+            <a class="next" onclick="update(1)">&#10095;</a>
+        </div>
+    </div>
+    <div class="contact dark">
+        <h3>Hubungi Saya</h3>
+        <div class="form">
+            <input type="email" placeholder="Email (Diperlukan)">
+            <p id="warning">*alamat email tidak sesuai</p>
+            <textarea placeholder="Message (Diperlukan)"></textarea>
+        </div>
+        <input class="button" type="submit" value="kirim">
+    </div>
+    <div class="faq light">
+        <h3>Pertanyaan Umum</h3>
+        <button class="accordion">Pertanyaan 1</button>
+        <div class="panel">
+            <p>Ini adalah jawaban untuk pertanyaan 1.</p>
+        </div>
+        <button class="accordion">Pertanyaan 2</button>
+        <div class="panel">
+            <p>Ini adalah jawaban untuk pertanyaan 2.</p>
+        </div>
+        <button class="accordion">Pertanyaan 3</button>
+        <div class="panel">
+            <p>Ini adalah jawaban untuk pertanyaan 3.</p>
+        </div>
+    </div>
+    <footer>
+        <h1>NINJA KEN</h1>
+        <ul>
+            <li>Tentang Saya</li>
+            <li>Proyek Contoh</li>
+            <li>Hubungi Saya</li>
+        </ul>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const accordions = document.querySelectorAll('.accordion');
+
+            accordions.forEach(accordion => {
+                accordion.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    const panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + 'px';
+                    }
+                });
+            });
+        });
+        
+        let index = 1;
+    
+        const update = (n) => {
+            index += n;
+            if (index > 3) {
+                index = 1;
+            } else if (index < 1) {
+                index = 3;
+            }
+            showProjects();
+        };
+    
+        const showProjects = () => {
+            const example = document.querySelector(".example");
+            example.innerHTML = "";
+    
+            for (let i = 1; i <= 3; i++) {
+                const project = document.createElement("div");
+                project.classList.add("project");
+    
+                const image = document.createElement("img");
+                image.src = `./assets/img/${index}.png`;
+                project.appendChild(image);
+    
+                const paragraph = document.createElement("p");
+                paragraph.innerHTML = `Image ${index}`;
+                project.appendChild(paragraph);
+    
+                example.appendChild(project);
+                index++;
+                if (index > 3) {
+                    index = 1;
+                }
+            }
+        };
+    
+        const validateEmail = () => {
+            const emailInput = document.querySelector("input[type='email']");
+            const email = emailInput.value;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+            if (!emailPattern.test(email)) {
+                document.getElementById("warning").style.display = "block";
+                return false;
+            } else {
+                document.getElementById("warning").style.display = "none";
+                return true;
+            }
+        };
+    
+        window.onload = () => {
+            showProjects();
+            document.querySelector(".button").addEventListener("click", (event) => {
+                if (!validateEmail()) {
+                    event.preventDefault();
+                }
+            });
+        };
+    </script>    
+</body>
+</html>
